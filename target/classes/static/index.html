@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Satha's AI-Powered Early Disease Detection System</title>
+    <meta name="description" content="Multi-disease early detection platform powered by Ensemble Machine Learning and Explainable AI (SHAP / Tree Interpreter).">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Plotly.js for interactive XAI charts -->
+    <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+    
+    <!-- Styling -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <i class="fa-solid fa-heart-pulse brand-icon"></i>
+                <div class="brand-text">
+                    <h2>SathaAI</h2>
+                    <span>Disease Detection System</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <button class="nav-btn active" id="btn-home" onclick="switchPage('home')">
+                    <i class="fa-solid fa-house"></i> Home
+                </button>
+                <button class="nav-btn" id="btn-diabetes" onclick="switchPage('diabetes')">
+                    <i class="fa-solid fa-droplet"></i> Diabetes Risk
+                </button>
+                <button class="nav-btn" id="btn-heart" onclick="switchPage('heart')">
+                    <i class="fa-solid fa-heart-crack"></i> Heart Disease
+                </button>
+                <button class="nav-btn" id="btn-kidney" onclick="switchPage('kidney')">
+                    <i class="fa-solid fa-kidney"></i> Chronic Kidney
+                </button>
+                <button class="nav-btn" id="btn-dashboard" onclick="switchPage('dashboard')">
+                    <i class="fa-solid fa-chart-line"></i> Dashboard
+                </button>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <p class="footer-tag">Ensemble ML + SHAP XAI</p>
+                <p class="footer-subtext">B.Tech Project by Satha</p>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header bar -->
+            <header class="content-header">
+                <div class="header-title">
+                    <h1 id="page-title">Diagnostic Center</h1>
+                    <p id="page-subtitle">Enter clinical metrics for predictions</p>
+                </div>
+                <div class="header-status">
+                    <div class="status-indicator">
+                        <span class="pulse-dot"></span>
+                        <span class="status-text">Models Loaded & Ready</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Loading overlay -->
+            <div class="loader-overlay" id="loader-overlay">
+                <div class="loader-container">
+                    <div class="pulse-loader"></div>
+                    <p>Analyzing clinical features...</p>
+                </div>
+            </div>
+
+            <!-- Page Sections -->
+            <!-- 1. HOME PAGE -->
+            <section class="page-section active" id="page-home">
+                <div class="welcome-card">
+                    <div class="welcome-text">
+                        <h2>Predictive Healthcare Redefined</h2>
+                        <p>SathaAI leverages state-of-the-art Voting Ensembles (Random Forest + Logistic Regression) and Local Explainable AI (XAI) models to assist clinicians in early-stage disease diagnosis with transparency.</p>
+                        <div class="welcome-buttons">
+                            <button class="btn btn-primary btn-lg" onclick="switchPage('diabetes')">Get Started <i class="fa-solid fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+                    <div class="welcome-illustration">
+                        <i class="fa-solid fa-shield-halved welcome-big-icon"></i>
+                    </div>
+                </div>
+
+                <div class="metrics-grid">
+                    <div class="metric-card gradient-blue">
+                        <div class="metric-icon"><i class="fa-solid fa-microscope"></i></div>
+                        <div class="metric-info">
+                            <h3>Diseases Addressed</h3>
+                            <div class="metric-value">3</div>
+                            <p>Diabetes, Cardiac, Kidney</p>
+                        </div>
+                    </div>
+                    <div class="metric-card gradient-green">
+                        <div class="metric-icon"><i class="fa-solid fa-gears"></i></div>
+                        <div class="metric-info">
+                            <h3>Classifier Stack</h3>
+                            <div class="metric-value">Ensemble</div>
+                            <p>RF + LR Voting Classifier</p>
+                        </div>
+                    </div>
+                    <div class="metric-card gradient-purple">
+                        <div class="metric-icon"><i class="fa-solid fa-chart-pie"></i></div>
+                        <div class="metric-info">
+                            <h3>Explainability</h3>
+                            <div class="metric-value">SHAP</div>
+                            <p>Tree Interpreter local path</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card info-card">
+                    <h2><i class="fa-solid fa-circle-info"></i> How it works</h2>
+                    <div class="workflow-steps">
+                        <div class="step">
+                            <div class="step-num">1</div>
+                            <h4>Select Diagnostic</h4>
+                            <p>Choose the target disease path from the sidebar menu.</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-num">2</div>
+                            <h4>Submit Clinical Form</h4>
+                            <p>Enter patient physiological metrics and laboratory results.</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-num">3</div>
+                            <h4>Analyze Assessment</h4>
+                            <p>Ensemble weights evaluate probabilities and output a prediction score.</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-num">4</div>
+                            <h4>Review Explanations</h4>
+                            <p>SHAP bar charts decompose variables to reveal key pathological drivers.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. DIABETES PAGE -->
+            <section class="page-section" id="page-diabetes">
+                <div class="grid-form-layout">
+                    <div class="content-card form-container">
+                        <h2><i class="fa-solid fa-droplet"></i> Patient Demographics & Lab Results</h2>
+                        <p class="form-desc">Provide exact clinical values from patient reports.</p>
+                        
+                        <form id="form-diabetes" onsubmit="submitPrediction(event, 'diabetes')">
+                            <div class="form-row-2">
+                                <div class="form-group">
+                                    <label for="pregnancies">Pregnancies <span class="label-desc">(Count)</span></label>
+                                    <input type="number" id="pregnancies" name="pregnancies" min="0" max="20" value="1" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="glucose">Glucose Level <span class="label-desc">(mg/dL)</span></label>
+                                    <input type="number" id="glucose" name="glucose" min="0" max="300" value="120" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row-2">
+                                <div class="form-group">
+                                    <label for="bloodPressure">Blood Pressure <span class="label-desc">(mmHg)</span></label>
+                                    <input type="number" id="bloodPressure" name="bloodPressure" min="0" max="200" value="70" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="skinThickness">Skin Thickness <span class="label-desc">(mm)</span></label>
+                                    <input type="number" id="skinThickness" name="skinThickness" min="0" max="100" value="20" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row-2">
+                                <div class="form-group">
+                                    <label for="insulin">Insulin Level <span class="label-desc">(μU/mL)</span></label>
+                                    <input type="number" id="insulin" name="insulin" min="0" max="900" value="80" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bmi">BMI <span class="label-desc">(Weight/Height²)</span></label>
+                                    <input type="number" id="bmi" name="bmi" min="0.0" max="70.0" step="0.1" value="25.0" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row-2">
+                                <div class="form-group">
+                                    <label for="diabetesPedigreeFunction">Diabetes Pedigree Function</label>
+                                    <input type="number" id="diabetesPedigreeFunction" name="diabetesPedigreeFunction" min="0.0" max="3.0" step="0.01" value="0.50" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="age">Age <span class="label-desc">(Years)</span></label>
+                                    <input type="number" id="age" name="age" min="1" max="120" value="30" required>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-block btn-lg mt-10">
+                                <i class="fa-solid fa-heart-pulse"></i> Analyze Diabetes Risk
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Prediction Results Placeholder -->
+                    <div class="result-placeholder-card" id="result-placeholder-diabetes">
+                        <i class="fa-solid fa-stethoscope placeholder-icon"></i>
+                        <h3>Awaiting Assessment Input</h3>
+                        <p>Submit the patient metrics in the form to generate model outputs and explanation charts.</p>
+                    </div>
+
+                    <div class="content-card result-display-card hidden" id="result-card-diabetes">
+                        <h2>Assessment Results</h2>
+                        <div id="risk-banner-diabetes" class="risk-banner">
+                            <span id="risk-text-diabetes">Risk Status</span>
+                        </div>
+                        <div class="probability-display">
+                            <span class="prob-title">Risk Probability</span>
+                            <div class="prob-bar-container">
+                                <div id="prob-bar-diabetes" class="prob-bar"></div>
+                            </div>
+                            <span id="prob-val-diabetes" class="prob-val">0.0%</span>
+                        </div>
+
+                        <!-- Explanations chart -->
+                        <div class="chart-section">
+                            <h3>🔬 Explainable AI (XAI) Interpretation</h3>
+                            <p class="chart-desc">This graph displays the contribution of individual clinical factors to the final classification decision (Red increases risk, Green decreases risk).</p>
+                            <div id="chart-diabetes" class="plotly-chart"></div>
+                        </div>
+
+                        <button class="btn btn-secondary btn-block btn-lg" onclick="downloadPdf('diabetes')">
+                            <i class="fa-solid fa-file-pdf"></i> Download Diagnostic Report PDF
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. HEART DISEASE PAGE -->
+            <section class="page-section" id="page-heart">
+                <div class="grid-form-layout">
+                    <div class="content-card form-container">
+                        <h2><i class="fa-solid fa-heart-pulse"></i> Cardiovascular Indicators</h2>
+                        <p class="form-desc">Provide exact clinical values from patient reports.</p>
+                        
+                        <form id="form-heart" onsubmit="submitPrediction(event, 'heart')">
+                            <div class="form-row-2">
+                                <div class="form-group">
+                                    <label for="age_h">Age <span class="label-desc">(Years)</span></label>
+                                    <input type="number" id="age_h" name="age_h" min="29" max="77" value="54" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="sex">Sex</label>
+                                    <select id="sex" name="sex" required>
+                                        <option value="1">Male</option>
+                                        <option value="0">Female</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-row-2">
+                                <div class="form-group">
+                                    <label for="cp">Chest Pain Type</label>
+                                    <select id="cp" name="cp" required>
+                                        <option value="0">Typical Angina (0)</option>
+                                        <option value="1">Atypical Angina (1)</option>
+                                        <option value="2">Non-Anginal Pain (2)</option>
+                                        <option value="3">Asymptomatic (3)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="trestbps">Resting Blood Pressure <span class="label-desc">(mmHg)</span></label>
+                                    <input type="number" id="trestbps" name="trestbps" min="94" max="200" value="130" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row-2">
+                                <div class="form-group">
+                                    <label for="chol">Serum Cholestoral <span class="label-desc">(mg/dL)</span></label>
+                                    <input type="number" id="chol" name="chol" min="126" max="564" value="240" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="fbs">Fasting Blood Sugar > 120 <span class="label-desc">(mg/dL)</span></label>
+                                    <select id="fbs" name="fbs" required>
+                                        <option value="0">No (Fasting Glucose <= 120)</option>
+                                        <option value="1">Yes (Fasting Glucose > 120)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-row-2">
+                                <div class="form-group">
+                                    <label for="restecg">Resting ECG Results</label>
+                                    <select id="restecg" name="restecg" required>
+                                        <option value="0">Normal (0)</option>
+                                        <option value="1">ST-T Wave Abnormality (1)</option>
+                                        <option value="2">Left Ventricular Hypertrophy (2)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="thalach">Max Heart Rate Achieved</label>
+                                    <input type="number" id="thalach" name="thalach" min="71" max="202" value="150" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row-2">
+                                <div class="form-group">
+                                    <label for="exang">Exercise Induced Angina</label>
+                                    <select id="exang" name="exang" required>
+                                        <option value="0">No</option>
+                                        <option value="1">Yes</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="oldpeak">ST Depression <span class="label-desc">(Exercise vs Rest)</span></label>
+                                    <input type="number" id="oldpeak" name="oldpeak" min="0.0" max="6.2" step="0.1" value="1.0" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row-3">
+                                <div class="form-group">
+                                    <label for="slope">Peak Exercise ST Segment</label>
+                                    <select id="slope" name="slope" required>
+                                        <option value="0">Upsloping (0)</option>
+                                        <option value="1">Flat (1)</option>
+                                        <option value="2">Downsloping (2)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="ca">Number of Major Vessels</label>
+                                    <select id="ca" name="ca" required>
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="thal">Thalassemia Type</label>
+                                    <select id="thal" name="thal" required>
+                                        <option value="2">Normal (2)</option>
+                                        <option value="1">Fixed Defect (1)</option>
+                                        <option value="3">Reversible Defect (3)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-block btn-lg mt-10">
+                                <i class="fa-solid fa-heart-pulse"></i> Analyze Cardiovascular Risk
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Prediction Results Placeholder -->
+                    <div class="result-placeholder-card" id="result-placeholder-heart">
+                        <i class="fa-solid fa-stethoscope placeholder-icon"></i>
+                        <h3>Awaiting Assessment Input</h3>
+                        <p>Submit the patient metrics in the form to generate model outputs and explanation charts.</p>
+                    </div>
+
+                    <div class="content-card result-display-card hidden" id="result-card-heart">
+                        <h2>Assessment Results</h2>
+                        <div id="risk-banner-heart" class="risk-banner">
+                            <span id="risk-text-heart">Risk Status</span>
+                        </div>
+                        <div class="probability-display">
+                            <span class="prob-title">Risk Probability</span>
+                            <div class="prob-bar-container">
+                                <div id="prob-bar-heart" class="prob-bar"></div>
+                            </div>
+                            <span id="prob-val-heart" class="prob-val">0.0%</span>
+                        </div>
+
+                        <!-- Explanations chart -->
+                        <div class="chart-section">
+                            <h3>🔬 Explainable AI (XAI) Interpretation</h3>
+                            <p class="chart-desc">This graph displays the contribution of individual clinical factors to the final classification decision (Red increases risk, Green decreases risk).</p>
+                            <div id="chart-heart" class="plotly-chart"></div>
+                        </div>
+
+                        <button class="btn btn-secondary btn-block btn-lg" onclick="downloadPdf('heart')">
+                            <i class="fa-solid fa-file-pdf"></i> Download Diagnostic Report PDF
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. KIDNEY DISEASE PAGE -->
+            <section class="page-section" id="page-kidney">
+                <div class="grid-form-layout">
+                    <div class="content-card form-container">
+                        <h2><i class="fa-solid fa-kidney"></i> Renal Function Diagnostics</h2>
+                        <p class="form-desc">Provide exact clinical values from patient reports.</p>
+                        
+                        <form id="form-kidney" onsubmit="submitPrediction(event, 'kidney')">
+                            <div class="form-scrollable-area">
+                                <div class="form-section-title">Physiological Metrics</div>
+                                <div class="form-row-3">
+                                    <div class="form-group">
+                                        <label for="k_age">Age <span class="label-desc">(Years)</span></label>
+                                        <input type="number" id="k_age" name="k_age" min="2" max="90" value="50" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="k_bp">Blood Pressure <span class="label-desc">(mmHg)</span></label>
+                                        <input type="number" id="k_bp" name="k_bp" min="50" max="180" value="80" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="k_sg">Specific Gravity</label>
+                                        <input type="number" id="k_sg" name="k_sg" min="1.005" max="1.025" step="0.005" value="1.020" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-row-2">
+                                    <div class="form-group">
+                                        <label for="k_al">Albumin</label>
+                                        <select id="k_al" name="k_al" required>
+                                            <option value="0">0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="k_su">Sugar</label>
+                                        <select id="k_su" name="k_su" required>
+                                            <option value="0">0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-section-title">Urine & Blood Chemistry</div>
+                                <div class="form-row-3">
+                                    <div class="form-group">
+                                        <label for="k_rbc">Red Blood Cells</label>
+                                        <select id="k_rbc" name="k_rbc" required>
+                                            <option value="1">Normal (1)</option>
+                                            <option value="0">Abnormal (0)</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="k_pc">Pus Cells</label>
+                                        <select id="k_pc" name="k_pc" required>
+                                            <option value="1">Normal (1)</option>
+                                            <option value="0">Abnormal (0)</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="k_pcc">Pus Cell Clumps</label>
+                                        <select id="k_pcc" name="k_pcc" required>
+                                            <option value="0">Not Present (0)</option>
+                                            <option value="1">Present (1)</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-row-3">
+                                    <div class="form-group">
+                                        <label for="k_ba">Bacteria</label>
+                                        <select id="k_ba" name="k_ba" required>
+                                            <option value="0">Not Present (0)</option>
+                                            <option value="1">Present (1)</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="k_bgr">Blood Glucose Random</label>
+                                        <input type="number" id="k_bgr" name="k_bgr" min="22" max="490" value="120" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="k_bu">Blood Urea <span class="label-desc">(mg/dL)</span></label>
+                                        <input type="number" id="k_bu" name="k_bu" min="1.0" max="391.0" step="0.1" value="50.0" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-row-4">
+                                    <div class="form-group">
+                                        <label for="k_sc">Serum Creatinine</label>
+                                        <input type="number" id="k_sc" name="k_sc" min="0.4" max="76.0" step="0.1" value="1.2" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="k_sod">Sodium</label>
+                                        <input type="number" id="k_sod" name="k_sod" min="4.5" max="163.0" step="0.1" value="140.0" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="k_pot">Potassium</label>
+                                        <input type="number" id="k_pot" name="k_pot" min="2.5" max="47.0" step="0.1" value="4.5" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="k_hemo">Hemoglobin <span class="label-desc">(g/dL)</span></label>
+                                        <input type="number" id="k_hemo" name="k_hemo" min="3.1" max="17.8" step="0.1" value="13.5" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-row-3">
+                                    <div class="form-group">
+                                        <label for="k_pcv">Packed Cell Volume</label>
+                                        <input type="number" id="k_pcv" name="k_pcv" min="9" max="54" value="40" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="k_wc">White Blood Cell Count</label>
+                                        <input type="number" id="k_wc" name="k_wc" min="2200" max="26400" value="7500" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="k_rc">Red Blood Cell Count</label>
+                                        <input type="number" id="k_rc" name="k_rc" min="2.1" max="8.0" step="0.1" value="4.5" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-section-title">Comorbidities & Clinical Context</div>
+                                <div class="form-row-3">
+                                    <div class="form-group">
+                                        <label for="k_htn">Hypertension</label>
+                                        <select id="k_htn" name="k_htn" required>
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="k_dm">Diabetes Mellitus</label>
+                                        <select id="k_dm" name="k_dm" required>
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="k_cad">Coronary Artery Disease</label>
+                                        <select id="k_cad" name="k_cad" required>
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-row-3">
+                                    <div class="form-group">
+                                        <label for="k_appet">Appetite</label>
+                                        <select id="k_appet" name="k_appet" required>
+                                            <option value="1">Good</option>
+                                            <option value="0">Poor</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="k_pe">Pedal Edema</label>
+                                        <select id="k_pe" name="k_pe" required>
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="k_ane">Anemia</label>
+                                        <select id="k_ane" name="k_ane" required>
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-block btn-lg mt-10">
+                                <i class="fa-solid fa-heart-pulse"></i> Analyze Renal Risk
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Prediction Results Placeholder -->
+                    <div class="result-placeholder-card" id="result-placeholder-kidney">
+                        <i class="fa-solid fa-stethoscope placeholder-icon"></i>
+                        <h3>Awaiting Assessment Input</h3>
+                        <p>Submit the patient metrics in the form to generate model outputs and explanation charts.</p>
+                    </div>
+
+                    <div class="content-card result-display-card hidden" id="result-card-kidney">
+                        <h2>Assessment Results</h2>
+                        <div id="risk-banner-kidney" class="risk-banner">
+                            <span id="risk-text-kidney">Risk Status</span>
+                        </div>
+                        <div class="probability-display">
+                            <span class="prob-title">Risk Probability</span>
+                            <div class="prob-bar-container">
+                                <div id="prob-bar-kidney" class="prob-bar"></div>
+                            </div>
+                            <span id="prob-val-kidney" class="prob-val">0.0%</span>
+                        </div>
+
+                        <!-- Explanations chart -->
+                        <div class="chart-section">
+                            <h3>🔬 Explainable AI (XAI) Interpretation</h3>
+                            <p class="chart-desc">This graph displays the contribution of individual clinical factors to the final classification decision (Red increases risk, Green decreases risk).</p>
+                            <div id="chart-kidney" class="plotly-chart"></div>
+                        </div>
+
+                        <button class="btn btn-secondary btn-block btn-lg" onclick="downloadPdf('kidney')">
+                            <i class="fa-solid fa-file-pdf"></i> Download Diagnostic Report PDF
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. DASHBOARD PAGE -->
+            <section class="page-section" id="page-dashboard">
+                <div class="dashboard-stats-grid">
+                    <div class="stat-box card-glass">
+                        <span class="stat-label">System Accuracy (Avg)</span>
+                        <span class="stat-value" id="stat-avg-acc">90%+</span>
+                        <span class="stat-change text-green"><i class="fa-solid fa-circle-check"></i> Target Achieved</span>
+                    </div>
+                    <div class="stat-box card-glass">
+                        <span class="stat-label">Total Local Runs</span>
+                        <span class="stat-value" id="stat-total-runs">0</span>
+                        <span class="stat-change text-blue">Cumulative assessments</span>
+                    </div>
+                    <div class="stat-box card-glass">
+                        <span class="stat-label">High Risk Cases Detected</span>
+                        <span class="stat-value text-red" id="stat-high-risk">0</span>
+                        <span class="stat-change text-red"><i class="fa-solid fa-triangle-exclamation"></i> Immediate actions</span>
+                    </div>
+                </div>
+
+                <div class="dashboard-details-grid">
+                    <!-- Model Information -->
+                    <div class="content-card">
+                        <h2><i class="fa-solid fa-database"></i> Model Accuracies & Framework</h2>
+                        <p class="section-desc">Evaluations executed dynamically on 20% test-split partitions.</p>
+                        
+                        <div class="accuracy-metrics-list">
+                            <div class="acc-row">
+                                <span class="acc-name">Diabetes Prediction Model</span>
+                                <div class="acc-bar-outer">
+                                    <div class="acc-bar-inner" id="acc-bar-diabetes" style="width: 0%"></div>
+                                </div>
+                                <span class="acc-val" id="acc-val-diabetes">Loading...</span>
+                            </div>
+                            <div class="acc-row">
+                                <span class="acc-name">Heart Disease Prediction Model</span>
+                                <div class="acc-bar-outer">
+                                    <div class="acc-bar-inner" id="acc-bar-heart" style="width: 0%"></div>
+                                </div>
+                                <span class="acc-val" id="acc-val-heart">Loading...</span>
+                            </div>
+                            <div class="acc-row">
+                                <span class="acc-name">Chronic Kidney Disease Model</span>
+                                <div class="acc-bar-outer">
+                                    <div class="acc-bar-inner" id="acc-bar-kidney" style="width: 0%"></div>
+                                </div>
+                                <span class="acc-val" id="acc-val-kidney">Loading...</span>
+                            </div>
+                        </div>
+
+                        <div class="tech-stack-card mt-15">
+                            <h4>Methodology Specifications</h4>
+                            <ul>
+                                <li><strong>Algorithms</strong>: Voting Ensemble Classifier (Soft Voting: Random Forest + Logistic Regression)</li>
+                                <li><strong>Scalers</strong>: StandardScaler (computed and saved on train split)</li>
+                                <li><strong>Missing Values</strong>: Median imputation dynamically computed on dataset distributions</li>
+                                <li><strong>XAI Framework</strong>: Path Contribution Tree Interpreter (SHAP approximation)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Local Activity Log -->
+                    <div class="content-card">
+                        <h2><i class="fa-solid fa-clock-rotate-left"></i> Patient Assessment History</h2>
+                        <p class="section-desc">List of predictions run in the current session (locally cached).</p>
+                        
+                        <div class="history-list-wrapper">
+                            <table class="history-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date/Time</th>
+                                        <th>Disease</th>
+                                        <th>Risk Score</th>
+                                        <th>Result</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="history-log-body">
+                                    <tr>
+                                        <td colspan="4" class="text-center text-gray">No assessments performed in this session.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <button class="btn btn-secondary btn-sm mt-10" onclick="clearHistory()">
+                            <i class="fa-solid fa-trash-can"></i> Clear Local History
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Application Script -->
+    <script src="js/app.js"></script>
+</body>
+</html>
