@@ -1,5 +1,5 @@
 package com.disease.controller;
-
+import java.io.File;
 import com.disease.dto.PredictionRequest;
 import com.disease.dto.PredictionResponse;
 import com.disease.ml.EnsembleModel;
