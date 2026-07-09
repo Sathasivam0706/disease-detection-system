@@ -107,8 +107,7 @@ To build and run this application, you must install the **Java Development Kit (
 3. **Web Server Host**: Spring Boot mounts the embedded Tomcat server on `http://localhost:8080`.
 
 Open your browser and navigate to:
-👉 **[http://localhost:8080](http://localhost:8080)**
-
+👉 https://disease-detection-system-1.onrender.com/. 
 ---
 
 ## System Telemetry & ML Performance
