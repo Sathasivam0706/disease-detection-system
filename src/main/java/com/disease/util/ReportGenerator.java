@@ -29,6 +29,7 @@ public class ReportGenerator {
 
             // Set up fonts
             Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 22, new Color(30, 136, 229));
+            
             Font subTitleFont = FontFactory.getFont(FontFactory.HELVETICA, 12, Color.GRAY);
             Font sectionHeadingFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14, new Color(55, 71, 79));
             Font boldTextFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10, Color.BLACK);
@@ -101,7 +102,7 @@ public class ReportGenerator {
                 list.add(item);
                 count++;
             }
-            list.setSpacingAfter(25);
+           // list.setSpacingAfter(25);
             document.add(list);
 
             // Patient Data Table
